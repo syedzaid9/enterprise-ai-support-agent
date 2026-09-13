@@ -2,7 +2,7 @@
 Admin AI Operations & Supervision Center for ResolveAI.
 Modern AI Operations platform: Topbar navigation, live telemetry strip, Human-in-the-Loop supervision floor,
 intelligent agent run timeline, customer directory, ticket queue, and policy knowledge vault.
-Adheres strictly to Pure Real Data principles.
+Adheres strictly to Pure Real Data principles and zero-fake-records.
 """
 
 import json
@@ -59,14 +59,14 @@ def render_admin_dashboard():
         customers = db.query(Customer).filter(Customer.company_id == company_id).order_by(Customer.created_at.desc()).all()
         tickets = db.query(Ticket).filter(Ticket.company_id == company_id).order_by(Ticket.created_at.desc()).all()
         approvals = db.query(Approval).filter(Approval.company_id == company_id).order_by(Approval.created_at.desc()).all()
-        agent_runs = db.query(AgentRun).filter(AgentRun.company_id == company_id).order_by(AgentRun.started_at.desc()).limit(25).all()
+        agent_runs = db.query(AgentRun).filter(AgentRun.company_id == company_id).order_by(AgentRun.started_at.desc()).limit(30).all()
 
     # Session state setup
     if "admin_nav" not in st.session_state:
         st.session_state.admin_nav = "ops"
 
     # =========================================================================
-    # TOPBAR: BRANDING, COMPANY SCOPE, TELEMETRY BADGE & USER
+    # TOPBAR: BRANDING, COMPANY SCOPE, TELEMETRY BADGE & USER PROFILE
     # =========================================================================
     st.markdown(f"""
     <div class="ai-topbar">
@@ -79,7 +79,7 @@ def render_admin_dashboard():
             <span class="badge-blue">SCOPE: {company_name}</span>
         </div>
         <div style="display: flex; align-items: center; gap: 14px;">
-            <div style="text-align: right; margin-right: 8px;">
+            <div style="text-align: right; margin-right: 4px;">
                 <div style="font-size: 13.5px; font-weight: 700; color: #0f172a;">{admin_user.email}</div>
                 <div style="font-size: 11px; color: #64748b;">Supervisor Admin</div>
             </div>
@@ -88,57 +88,55 @@ def render_admin_dashboard():
     </div>
     """, unsafe_allow_html=True)
 
-    # Top Navigation Switcher
-    col_nav, col_out = st.columns([6, 1])
+    # Top Command Bar Navigation
+    col_nav, col_out = st.columns([6.2, 1])
     with col_nav:
-        n1, n2, n3, n4, n5, n6, n7 = st.columns(7)
+        n1, n2, n3, n4, n5, n6 = st.columns(6)
         with n1:
-            if st.button("⚡ AI Operations", type="primary" if st.session_state.admin_nav == "ops" else "secondary", use_container_width=True, key="an_ops"):
+            if st.button("⚡ Operations Floor", type="primary" if st.session_state.admin_nav == "ops" else "secondary", use_container_width=True, key="an_ops"):
                 st.session_state.admin_nav = "ops"
                 st.rerun()
         with n2:
-            if st.button(f"👥 Customers ({total_customers})", type="primary" if st.session_state.admin_nav == "customers" else "secondary", use_container_width=True, key="an_cust"):
-                st.session_state.admin_nav = "customers"
-                st.rerun()
-        with n3:
-            if st.button(f"🎫 Tickets ({open_tickets})", type="primary" if st.session_state.admin_nav == "tickets" else "secondary", use_container_width=True, key="an_tkt"):
-                st.session_state.admin_nav = "tickets"
-                st.rerun()
-        with n4:
             app_label = f"⚠️ Approvals ({pending_approvals_count})" if pending_approvals_count > 0 else "✓ Approvals (0)"
             if st.button(app_label, type="primary" if st.session_state.admin_nav == "approvals" else "secondary", use_container_width=True, key="an_app"):
                 st.session_state.admin_nav = "approvals"
                 st.rerun()
+        with n3:
+            if st.button(f"🎫 Support Queue ({open_tickets})", type="primary" if st.session_state.admin_nav == "tickets" else "secondary", use_container_width=True, key="an_tkt"):
+                st.session_state.admin_nav = "tickets"
+                st.rerun()
+        with n4:
+            if st.button(f"👥 Customers ({total_customers})", type="primary" if st.session_state.admin_nav == "customers" else "secondary", use_container_width=True, key="an_cust"):
+                st.session_state.admin_nav = "customers"
+                st.rerun()
         with n5:
-            if st.button("📚 Knowledge", type="primary" if st.session_state.admin_nav == "knowledge" else "secondary", use_container_width=True, key="an_know"):
+            if st.button("📚 Policy Vault", type="primary" if st.session_state.admin_nav == "knowledge" else "secondary", use_container_width=True, key="an_know"):
                 st.session_state.admin_nav = "knowledge"
                 st.rerun()
         with n6:
-            if st.button("🔌 Health", type="primary" if st.session_state.admin_nav == "health" else "secondary", use_container_width=True, key="an_hlth"):
+            if st.button("🔌 Health & Audit", type="primary" if st.session_state.admin_nav in ["health", "audit"] else "secondary", use_container_width=True, key="an_hlth"):
                 st.session_state.admin_nav = "health"
-                st.rerun()
-        with n7:
-            if st.button("📜 Audit", type="primary" if st.session_state.admin_nav == "audit" else "secondary", use_container_width=True, key="an_audit"):
-                st.session_state.admin_nav = "audit"
                 st.rerun()
 
     with col_out:
-        if st.button("🚪 Sign Out", use_container_width=True, key="a_logout"):
+        if st.button("🚪 Sign Out", use_container_width=True, key="admin_logout"):
             st.session_state.authenticated_user_id = None
             st.session_state.authenticated_role = None
             st.session_state.portal_selection = None
             st.rerun()
 
-    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: 16px;'></div>", unsafe_allow_html=True)
 
     # =========================================================================
-    # VIEW 1: AI OPERATIONS & SUPERVISION FLOOR (HERO WORKSPACE)
+    # VIEW 1: AI OPERATIONS FLOOR (HERO WORKSPACE)
     # =========================================================================
     if st.session_state.admin_nav == "ops":
-        # Live Telemetry Strip
+        # Hero Telemetry Strip
         st.markdown(f"""
         <div style="margin-bottom: 20px;">
-            <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Live Resolution Pipeline Telemetry</div>
+            <div style="font-size: 11.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                Live Resolution Pipeline Telemetry
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -179,15 +177,65 @@ def render_admin_dashboard():
 
         st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
 
-        # Main 2-Column Split: Human-in-the-Loop Supervision (Left) + AI Resolution Timeline (Right)
-        col_hitl, col_timeline = st.columns([1.6, 1.4], gap="large")
+        # Operational Grid: AI Resolution Activity (Left) + Human Supervision Floor (Right)
+        col_timeline, col_hitl = st.columns([1.4, 1.6], gap="large")
 
-        # Left Column: HITL Supervision Queue
+        # Left Column: AI Resolution Activity Stream (Priority #1)
+        with col_timeline:
+            st.markdown("""
+            <div class="intelligence-card">
+                <div class="intelligence-card-header">
+                    <div class="intelligence-card-title">🤖 AI Resolution Activity Stream</div>
+                    <span class="badge-blue">Live Telemetry</span>
+                </div>
+            """, unsafe_allow_html=True)
+
+            if agent_runs:
+                st.markdown("<div class='timeline-container'>", unsafe_allow_html=True)
+                for run in agent_runs[:8]:
+                    dot_cls = "timeline-dot-success" if run.status == "completed" else ("timeline-dot-warning" if run.status == "pending" else "timeline-dot")
+                    ts = run.started_at.strftime("%d %b, %I:%M %p") if run.started_at else "N/A"
+                    st.markdown(f"""
+                    <div class="timeline-node">
+                        <div class="timeline-dot {dot_cls}"></div>
+                        <div class="timeline-title">{run.intent or 'AI Customer Investigation Workflow'}</div>
+                        <div class="timeline-meta">
+                            Status: <b>{run.status.upper()}</b> | Customer ID: {run.customer_id} | Tools: {run.tools_invoked_count or 0} | {ts}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="smart-empty-state">
+                    <div class="smart-empty-icon">🤖</div>
+                    <div class="smart-empty-title">No Recent AI Workflows</div>
+                    <div class="smart-empty-subtitle">AI resolution activity stream will populate as customers interact with the copilot.</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("</div>", unsafe_allow_html=True)
+
+            # Quick Policy Status Card
+            docs = list_knowledge_documents(company_id)
+            st.markdown(f"""
+            <div class="intelligence-card">
+                <div class="intelligence-card-header">
+                    <div class="intelligence-card-title">📚 Company Policy RAG Status</div>
+                    <span class="badge-purple">{len(docs)} Documents Indexed</span>
+                </div>
+                <div style="font-size: 13px; color: #64748b; line-height: 1.6;">
+                    FAISS semantic vector store active with tenant company isolation. Policy guidelines are automatically retrieved during agent resolution runs.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Right Column: Human-in-the-Loop Supervision Queue (Priority #2)
         with col_hitl:
             st.markdown("""
             <div class="intelligence-card">
                 <div class="intelligence-card-header">
-                    <div class="intelligence-card-title">⚠️ Human Supervision & Authorization Queue</div>
+                    <div class="intelligence-card-title">⚠️ Human Supervision & Authorization Floor</div>
                     <span class="badge-orange">HITL Governance</span>
                 </div>
             """, unsafe_allow_html=True)
@@ -200,11 +248,11 @@ def render_admin_dashboard():
                     <div style="background: #fffaf5; border: 1px solid #fed7aa; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: baseline;">
                             <span style="font-size: 14px; font-weight: 800; color: #9a3412;">PROPOSED ACTION: <code>{a.action_type}</code></span>
-                            <span class="badge-orange">PENDING SUPERVISOR</span>
+                            <span class="badge-orange">REQUIRES APPROVAL</span>
                         </div>
-                        <div style="font-size: 12px; color: #475569; margin: 8px 0;">
+                        <div style="font-size: 12.5px; color: #475569; margin: 8px 0; line-height: 1.6;">
                             <div><b>Customer DB ID:</b> {a.customer_id} | <b>Target Ref:</b> <code>{a.target_id or 'N/A'}</code></div>
-                            <div><b>AI Investigation Reason:</b> {a.reason or 'Sensitive state change intercepted by LangGraph.'}</div>
+                            <div><b>AI Investigation Reason:</b> {a.reason or 'Sensitive state change intercepted by LangGraph workflow.'}</div>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -263,98 +311,84 @@ def render_admin_dashboard():
                 <div class="smart-empty-state">
                     <div class="smart-empty-icon">✓</div>
                     <div class="smart-empty-title">All Approvals Clear</div>
-                    <div class="smart-empty-subtitle">Zero pending AI financial actions require supervisor authorization.</div>
+                    <div class="smart-empty-subtitle">Zero pending AI financial actions currently require supervisor authorization.</div>
                 </div>
                 """, unsafe_allow_html=True)
 
             st.markdown("</div>", unsafe_allow_html=True)
 
-        # Right Column: AI Resolution Activity Feed & Agent Run Telemetry
-        with col_timeline:
-            st.markdown("""
-            <div class="intelligence-card">
-                <div class="intelligence-card-header">
-                    <div class="intelligence-card-title">🤖 AI Resolution Activity & Telemetry</div>
-                    <span class="badge-blue">Live Stream</span>
-                </div>
-            """, unsafe_allow_html=True)
+        # Support Queue Summary on Ops Floor (Priority #3)
+        st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="intelligence-card">
+            <div class="intelligence-card-header">
+                <div class="intelligence-card-title">🎫 Urgent Support Issues Requiring Attention</div>
+                <span class="badge-blue">Queue Overview</span>
+            </div>
+        """, unsafe_allow_html=True)
 
-            if agent_runs:
-                st.markdown("<div class='timeline-container'>", unsafe_allow_html=True)
-                for run in agent_runs[:6]:
-                    dot_cls = "timeline-dot-success" if run.status == "completed" else ("timeline-dot-warning" if run.status == "pending" else "timeline-dot")
-                    ts = run.started_at.strftime("%d %b, %I:%M %p") if run.started_at else "N/A"
-                    st.markdown(f"""
-                    <div class="timeline-node">
-                        <div class="timeline-dot {dot_cls}"></div>
-                        <div class="timeline-title">{run.intent or 'Resolution Workflow Run'}</div>
-                        <div class="timeline-meta">
-                            Status: <b>{run.status.upper()}</b> | Customer ID: {run.customer_id} | Tools: {run.tools_invoked_count or 0} | {ts}
-                        </div>
+        open_tk_list = [t for t in tickets if t.status in ["open", "in_progress"]]
+        if open_tk_list:
+            for t in open_tk_list[:3]:
+                st.markdown(f"""
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span style="font-size: 14.5px; font-weight: 700; color: #0f172a;">{t.ticket_number}: {t.title}</span>
+                        <span class="badge-orange">{t.status.upper()}</span>
                     </div>
-                    """, unsafe_allow_html=True)
-                st.markdown("</div>", unsafe_allow_html=True)
-            else:
-                st.markdown("""
-                <div class="smart-empty-state">
-                    <div class="smart-empty-icon">🤖</div>
-                    <div class="smart-empty-title">No Recent AI Workflows</div>
-                    <div class="smart-empty-subtitle">AI resolution activity stream will populate as customers interact with the copilot.</div>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Priority: <b>{t.priority.upper()}</b> | Customer ID: {t.customer_id} | Created: {t.created_at.strftime('%d %b %Y') if t.created_at else 'N/A'}</div>
+                    <div style="font-size: 13px; color: #334155; margin-top: 6px;">{t.description[:120]}...</div>
                 </div>
                 """, unsafe_allow_html=True)
-
-            st.markdown("</div>", unsafe_allow_html=True)
-
-            # Quick Knowledge Base Status Card
-            docs = list_knowledge_documents(company_id)
-            st.markdown(f"""
-            <div class="intelligence-card">
-                <div class="intelligence-card-header">
-                    <div class="intelligence-card-title">📚 Indexed Policy RAG Knowledge</div>
-                    <span class="badge-purple">{len(docs)} Documents</span>
-                </div>
-                <div style="font-size: 13px; color: #64748b; line-height: 1.6;">
-                    Multi-format semantic policy index active. All documents strictly isolated to <b>{company_name}</b>.
-                </div>
+        else:
+            st.markdown("""
+            <div class="smart-empty-state" style="padding: 24px;">
+                <div class="smart-empty-icon">✓</div>
+                <div class="smart-empty-title">Support Queue Clear</div>
+                <div class="smart-empty-subtitle">No unresolved customer support tickets are currently pending.</div>
             </div>
             """, unsafe_allow_html=True)
 
+        st.markdown("</div>", unsafe_allow_html=True)
+
     # =========================================================================
-    # VIEW 2: CUSTOMERS
+    # VIEW 2: DEDICATED APPROVALS CONSOLE
     # =========================================================================
-    elif st.session_state.admin_nav == "customers":
-        st.markdown(f"""
+    elif st.session_state.admin_nav == "approvals":
+        st.markdown("""
         <div style="margin-bottom: 24px;">
-            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">👥 Customer Directory</h2>
-            <div style="font-size: 13.5px; color: #64748b;">Verified customer accounts registered under <b>{company_name}</b>.</div>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">⚠️ Human-in-the-Loop Supervision Console</h2>
+            <div style="font-size: 13.5px; color: #64748b;">Review intercepted financial refunds, subscription cancellations, and sensitive agent actions.</div>
         </div>
         """, unsafe_allow_html=True)
 
-        if customers:
-            cust_data = []
-            for c in customers:
-                cust_data.append({
-                    "DB ID": c.id,
-                    "External ID": c.external_customer_id or "N/A",
-                    "Full Name": c.name,
-                    "Email Address": c.email,
-                    "Phone": c.phone or "N/A",
-                    "Status": c.status,
-                    "Created": c.created_at.strftime("%d %b %Y") if c.created_at else "N/A",
-                })
-            df_cust = pd.DataFrame(cust_data)
-            st.dataframe(df_cust, use_container_width=True, hide_index=True)
+        if approvals:
+            for a in approvals:
+                status_badge = "badge-orange" if a.status == "pending" else ("badge-green" if a.status == "approved" else "badge-gray")
+                st.markdown("<div class='intelligence-card'>", unsafe_allow_html=True)
+                st.markdown(f"""
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0;">Action: <code>{a.action_type}</code></h4>
+                    <span class="{status_badge}">{a.status.upper()}</span>
+                </div>
+                <div style="font-size: 12.5px; color: #64748b; margin: 6px 0 10px 0;">Customer ID: {a.customer_id} | Target: <code>{a.target_id or 'N/A'}</code> | Created: {a.created_at.strftime('%d %b %Y, %I:%M %p') if a.created_at else 'N/A'}</div>
+                <p style="font-size: 13.5px; color: #334155;"><b>AI Reason:</b> {a.reason or 'N/A'}</p>
+                """, unsafe_allow_html=True)
+                st.code(a.action_data, language="json")
+                if a.notes:
+                    st.caption(f"Supervisor Notes: {a.notes}")
+                st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="smart-empty-state">
-                <div class="smart-empty-icon">👥</div>
-                <div class="smart-empty-title">No Customers Registered</div>
-                <div class="smart-empty-subtitle">No customer profiles currently exist for this company.</div>
+                <div class="smart-empty-icon">✓</div>
+                <div class="smart-empty-title">No Approvals Recorded</div>
+                <div class="smart-empty-subtitle">Zero human-in-the-loop approval records exist for this company.</div>
             </div>
             """, unsafe_allow_html=True)
 
     # =========================================================================
-    # VIEW 3: TICKETS
+    # VIEW 3: SUPPORT TICKETS QUEUE
     # =========================================================================
     elif st.session_state.admin_nav == "tickets":
         st.markdown("""
@@ -372,11 +406,12 @@ def render_admin_dashboard():
 
         if filtered_tickets:
             for t in filtered_tickets:
+                t_badge = "badge-orange" if t.status in ["open", "in_progress"] else "badge-green"
                 st.markdown("<div class='intelligence-card'>", unsafe_allow_html=True)
                 st.markdown(f"""
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
                     <h4 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;">{t.ticket_number}: {t.title}</h4>
-                    <span class="badge-blue">{t.status.upper()}</span>
+                    <span class="{t_badge}">{t.status.upper()}</span>
                 </div>
                 <div style="font-size: 12px; color: #64748b; margin: 4px 0 10px 0;">Priority: <b>{t.priority.upper()}</b> | Customer ID: {t.customer_id}</div>
                 <p style="font-size: 13.5px; color: #334155; line-height: 1.5; margin-bottom: 12px;">{t.description}</p>
@@ -407,38 +442,36 @@ def render_admin_dashboard():
             """, unsafe_allow_html=True)
 
     # =========================================================================
-    # VIEW 4: DEDICATED APPROVALS CONSOLE
+    # VIEW 4: CUSTOMERS DIRECTORY
     # =========================================================================
-    elif st.session_state.admin_nav == "approvals":
-        st.markdown("""
+    elif st.session_state.admin_nav == "customers":
+        st.markdown(f"""
         <div style="margin-bottom: 24px;">
-            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">⚠️ Human-in-the-Loop Supervision Console</h2>
-            <div style="font-size: 13.5px; color: #64748b;">Review intercepted financial refunds, subscription cancellations, and sensitive agent actions.</div>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">👥 Customer Directory</h2>
+            <div style="font-size: 13.5px; color: #64748b;">Verified customer accounts registered under <b>{company_name}</b>.</div>
         </div>
         """, unsafe_allow_html=True)
 
-        if approvals:
-            for a in approvals:
-                status_badge = "badge-orange" if a.status == "pending" else ("badge-green" if a.status == "approved" else "badge-gray")
-                st.markdown("<div class='intelligence-card'>", unsafe_allow_html=True)
+        if customers:
+            for c in customers:
                 st.markdown(f"""
-                <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                    <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0;">Action: <code>{a.action_type}</code></h4>
-                    <span class="{status_badge}">{a.status.upper()}</span>
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h4 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;">{c.name}</h4>
+                        <span class="badge-purple">DB ID: {c.id}</span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #475569; margin-top: 6px; line-height: 1.6;">
+                        <div><b>External ID:</b> <code>{c.external_customer_id or 'N/A'}</code> | <b>Status:</b> {c.status}</div>
+                        <div><b>Email:</b> {c.email} | <b>Phone:</b> {c.phone or 'N/A'} | <b>Joined:</b> {c.created_at.strftime('%d %b %Y') if c.created_at else 'N/A'}</div>
+                    </div>
                 </div>
-                <div style="font-size: 12px; color: #64748b; margin: 4px 0 10px 0;">Customer ID: {a.customer_id} | Target: <code>{a.target_id or 'N/A'}</code></div>
-                <p style="font-size: 13.5px; color: #334155;"><b>Reason:</b> {a.reason or 'N/A'}</p>
                 """, unsafe_allow_html=True)
-                st.code(a.action_data, language="json")
-                if a.notes:
-                    st.caption(f"Notes: {a.notes}")
-                st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="smart-empty-state">
-                <div class="smart-empty-icon">✓</div>
-                <div class="smart-empty-title">No Approvals Recorded</div>
-                <div class="smart-empty-subtitle">Zero human-in-the-loop approval records exist for this company.</div>
+                <div class="smart-empty-icon">👥</div>
+                <div class="smart-empty-title">No Customers Registered</div>
+                <div class="smart-empty-subtitle">No customer profiles currently exist for this company in PostgreSQL.</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -507,13 +540,13 @@ def render_admin_dashboard():
             st.markdown("</div>", unsafe_allow_html=True)
 
     # =========================================================================
-    # VIEW 6: HEALTH
+    # VIEW 6: HEALTH & AUDIT TRAIL
     # =========================================================================
     elif st.session_state.admin_nav == "health":
         st.markdown("""
         <div style="margin-bottom: 24px;">
-            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">🔌 Integrations & Infrastructure Health</h2>
-            <div style="font-size: 13.5px; color: #64748b;">Live connectivity and telemetry checks for external services and core models.</div>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">🔌 Integrations & Compliance Audit Trail</h2>
+            <div style="font-size: 13.5px; color: #64748b;">Live infrastructure connectivity and immutable chronological audit records.</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -522,7 +555,7 @@ def render_admin_dashboard():
 
         with h1:
             st.markdown("<div class='intelligence-card'>", unsafe_allow_html=True)
-            st.markdown("<div class='intelligence-card-header'><span class='intelligence-card-title'>Database Status</span><span class='badge-green'>LIVE</span></div>", unsafe_allow_html=True)
+            st.markdown("<div class='intelligence-card-header'><span class='intelligence-card-title'>Database Engine</span><span class='badge-green'>LIVE</span></div>", unsafe_allow_html=True)
             st.write(f"**Type:** {health['database']['type']}")
             st.write(f"**Status:** {health['database']['status']}")
             st.caption(f"URL: {health['database']['url_masked']}")
@@ -544,23 +577,26 @@ def render_admin_dashboard():
             st.caption(f"Token: {health['huggingface']['token_masked']}")
             st.markdown("</div>", unsafe_allow_html=True)
 
-    # =========================================================================
-    # VIEW 7: AUDIT TRAIL
-    # =========================================================================
-    elif st.session_state.admin_nav == "audit":
-        st.markdown("""
-        <div style="margin-bottom: 24px;">
-            <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">📜 Compliance & Operations Audit Trail</h2>
-            <div style="font-size: 13.5px; color: #64748b;">Immutable chronological record of user, admin, and AI agent events.</div>
-        </div>
-        """, unsafe_allow_html=True)
+        # Audit Logs Section
+        st.markdown("<div style='margin-top: 16px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div class='intelligence-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='intelligence-card-header'><span class='intelligence-card-title'>Compliance & Event Audit Stream</span></div>", unsafe_allow_html=True)
 
         logs = list_audit_logs(company_id, limit=50)
         if logs:
-            df_audit = pd.DataFrame(logs)
-            display_cols = ["id", "action", "actor_type", "target_type", "target_id", "status", "details", "created_at"]
-            avail = [c for c in display_cols if c in df_audit.columns]
-            st.dataframe(df_audit[avail], use_container_width=True, hide_index=True)
+            for l in logs:
+                st.markdown(f"""
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span style="font-size: 13.5px; font-weight: 700; color: #0f172a;">{l['action']}</span>
+                        <span class="badge-gray">{l['actor_type'].upper()}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+                        Target: <code>{l['target_type']}:{l['target_id'] or 'N/A'}</code> | Status: <b>{l['status']}</b> | {l['created_at']}
+                    </div>
+                    <div style="font-size: 12.5px; color: #334155; margin-top: 4px;">{l['details']}</div>
+                </div>
+                """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="smart-empty-state">
@@ -569,3 +605,5 @@ def render_admin_dashboard():
                 <div class="smart-empty-subtitle">Zero audit log entries recorded for this company.</div>
             </div>
             """, unsafe_allow_html=True)
+
+        st.markdown("</div>", unsafe_allow_html=True)

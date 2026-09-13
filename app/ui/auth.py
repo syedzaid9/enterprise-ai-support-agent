@@ -14,53 +14,49 @@ def render_auth_screen():
     portal = st.session_state.get("portal_selection", "customer")
     is_admin = (portal == "admin")
 
-    # Top Back & Identity Header
-    st.markdown(f"""
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; margin-bottom: 24px; border-bottom: 1px solid #e2e8f0;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div class="ai-brand-logo">⚡</div>
-            <span style="font-size: 18px; font-weight: 800; color: #0f172a;">RESOLVE<span style="color: #4f46e5;">AI</span></span>
-            <span class="{ 'badge-blue' if is_admin else 'badge-purple' }">{ 'ADMIN CONSOLE' if is_admin else 'CUSTOMER COPILOT' }</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_back, _ = st.columns([1.5, 3.5])
+    col_back, _ = st.columns([1, 4])
     with col_back:
-        if st.button("← Switch Portal", key="btn_auth_back"):
+        if st.button("← Back to Portals", key="btn_auth_back"):
             st.session_state.portal_selection = None
             st.session_state.auth_error = None
             st.rerun()
 
+    portal_title = "Admin Portal" if is_admin else "Customer Portal"
+    portal_icon = "🛡️" if is_admin else "👤"
+    portal_color = "#2563eb" if is_admin else "#4f46e5"
+
+    st.markdown(f"""
+    <div style="text-align: center; margin-top: 10px; margin-bottom: 25px;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: {portal_color}; border-radius: 14px; color: white; font-size: 24px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);">
+            {portal_icon}
+        </div>
+        <h2 style="font-size: 26px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+            {portal_title}
+        </h2>
+        <div style="font-size: 13px; color: #64748b;">
+            {"Secure operations and supervisor console" if is_admin else "Access AI support, track orders, and manage subscriptions"}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
     # Center card layout
-    _, col_center, _ = st.columns([1, 2.4, 1])
+    _, col_center, _ = st.columns([1, 2.2, 1])
 
     with col_center:
-        st.markdown(f"""
-        <div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-            <h2 style="font-size: 26px; font-weight: 800; color: #0f172a; margin-bottom: 4px; letter-spacing: -0.6px;">
-                {'Supervisor Authentication' if is_admin else 'Customer Sign In & Access'}
-            </h2>
-            <div style="font-size: 13.5px; color: #64748b;">
-                {'Enter administrative credentials to access operations telemetry' if is_admin else 'Sign in to access your verified account intelligence and AI copilot'}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("<div class='intelligence-card' style='padding: 28px;'>", unsafe_allow_html=True)
+        st.markdown("<div class='saas-card'>", unsafe_allow_html=True)
         tab_login, tab_register = st.tabs(["🔑 Sign In", "✨ Create Account"])
 
         # ==========================================
         # TAB 1: LOGIN
         # ==========================================
         with tab_login:
-            st.markdown("<div style='margin-top: 12px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
             with st.form("login_form"):
-                email = st.text_input("Email Address", placeholder="e.g. alex@example.com" if not is_admin else "admin@company.com")
+                email = st.text_input("Email Address", placeholder="e.g. alex@example.com" if not is_admin else "admin@resolveai.io")
                 password = st.text_input("Password", type="password", placeholder="Enter your password")
 
                 st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
-                submitted = st.form_submit_button("Authenticate & Access →", type="primary", use_container_width=True)
+                submitted = st.form_submit_button("Sign In →", type="primary", use_container_width=True)
 
                 if submitted:
                     expected_role = "admin" if is_admin else "customer"
@@ -74,18 +70,19 @@ def render_auth_screen():
                         st.session_state.authenticated_role = user.role
                         st.session_state.auth_error = None
                         st.session_state.messages = []  # Reset session chat
-                        st.success(f"Authenticated successfully as {user.role.upper()}.")
+                        st.success(f"Welcome back! Authenticated as {user.role.upper()}.")
                         st.rerun()
                     else:
                         st.error(error_msg or "Invalid email or password.")
 
-            st.caption("New to ResolveAI? Switch to the **✨ Create Account** tab above.")
+            st.caption("New here? Switch to the **✨ Create Account** tab to register.")
+
 
         # ==========================================
         # TAB 2: REGISTRATION
         # ==========================================
         with tab_register:
-            st.markdown("<div style='margin-top: 12px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
             if is_admin:
                 # Admin Registration Form
                 with st.form("admin_register_form"):
@@ -99,7 +96,7 @@ def render_auth_screen():
                         confirm_password = st.text_input("Confirm Password", type="password", placeholder="Re-enter password")
 
                     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
-                    submitted_reg = st.form_submit_button("Create Supervisor Account →", type="primary", use_container_width=True)
+                    submitted_reg = st.form_submit_button("Create Admin Account →", type="primary", use_container_width=True)
 
                     if submitted_reg:
                         if password != confirm_password:
@@ -134,7 +131,7 @@ def render_auth_screen():
                         confirm_password = st.text_input("Confirm Password", type="password", placeholder="Re-enter password")
 
                     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
-                    submitted_reg = st.form_submit_button("Register Customer Account →", type="primary", use_container_width=True)
+                    submitted_reg = st.form_submit_button("Create Customer Account →", type="primary", use_container_width=True)
 
                     if submitted_reg:
                         if password != confirm_password:
@@ -157,4 +154,3 @@ def render_auth_screen():
                                 st.error(str(e))
 
         st.markdown("</div>", unsafe_allow_html=True)
-

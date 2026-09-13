@@ -1,6 +1,7 @@
 """
 Shared CSS and Design Tokens for ResolveAI AI-Native Enterprise Interface.
-Modern AI Operations styling: Topbar navigation, intelligence cards, timeline nodes, and sleek surfaces.
+Modern AI Operations styling: Topbar command navigation, intelligence cards,
+conversational resolution canvases, activity timeline nodes, and sleek surfaces.
 """
 
 import streamlit as st
@@ -17,36 +18,100 @@ def apply_global_styles():
 
     <style>
         /* Base typography & resets */
-        html, body, [class*="css"] {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        html, body, [class*="css"], .stMarkdown, .stText {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             color: #0f172a;
             letter-spacing: -0.01em;
+        }
+
+        code, pre, .stCodeBlock {
+            font-family: 'JetBrains Mono', monospace !important;
         }
         
         .stApp {
             background-color: #f8fafc;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.04) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.04) 0px, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(241, 245, 249, 0.5) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(241, 245, 249, 0.6) 0px, transparent 50%);
             background-attachment: fixed;
         }
 
         /* Container padding */
         .main .block-container {
-            padding-top: 0.8rem;
+            padding-top: 1rem;
             padding-bottom: 3rem;
             max-width: 1400px;
             padding-left: 2rem;
             padding-right: 2rem;
         }
 
-        /* Hide Streamlit default sidebar when using topbar */
+        /* Hide Streamlit default sidebar & decoration elements */
         section[data-testid="stSidebar"] {
             display: none !important;
         }
         button[data-testid="baseButton-header"] {
             display: none !important;
+        }
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {background: transparent !important;}
+
+        /* Streamlit Button Styling */
+        .stButton > button {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+            border-radius: 10px !important;
+            padding: 8px 16px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border: 1px solid #e2e8f0 !important;
+            background: #ffffff !important;
+            color: #334155 !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .stButton > button:hover {
+            border-color: #cbd5e1 !important;
+            background: #f8fafc !important;
+            color: #0f172a !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+        }
+
+        .stButton > button[kind="primary"] {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
+        }
+
+        .stButton > button[kind="primary"]:hover {
+            background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%) !important;
+            box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Form Inputs */
+        .stTextInput input, .stTextArea textarea, .stSelectbox [data-baseweb="select"] {
+            border-radius: 10px !important;
+            border: 1px solid #e2e8f0 !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-size: 13.5px !important;
+            background: #ffffff !important;
+        }
+
+        .stTextInput input:focus, .stTextArea textarea:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+        }
+
+        /* Chat Input overrides */
+        .stChatInputContainer {
+            border-radius: 16px !important;
+            border: 1px solid #e2e8f0 !important;
+            background: #ffffff !important;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
         }
 
         /* ================================================================= */
@@ -57,7 +122,7 @@ def apply_global_styles():
             border: 1px solid #e2e8f0;
             border-radius: 16px;
             padding: 12px 20px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -100,23 +165,23 @@ def apply_global_styles():
             font-weight: 700;
             background: #ede9fe;
             color: #6366f1;
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 6px;
             letter-spacing: 0.2px;
         }
 
         /* ================================================================= */
-        /* INTELLIGENCE HERO & CARDS                                         */
+        /* HERO AI WORKSPACE & PROMPT STUDIO                                 */
         /* ================================================================= */
         .ai-hero-banner {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 20px;
             padding: 28px 32px;
             margin-bottom: 24px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.04);
         }
         
         .ai-hero-banner::before {
@@ -125,77 +190,104 @@ def apply_global_styles():
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #4f46e5, #3b82f6, #06b6d4);
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5 0%, #3b82f6 50%, #06b6d4 100%);
         }
 
+        .ai-hero-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+            letter-spacing: -0.8px;
+            line-height: 1.2;
+        }
+
+        .ai-hero-subtitle {
+            font-size: 14.5px;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ================================================================= */
+        /* INTELLIGENCE CARDS & CONTAINERS                                   */
+        /* ================================================================= */
         .intelligence-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 16px;
-            padding: 20px;
+            padding: 22px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.03);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
 
         .intelligence-card:hover {
             border-color: #cbd5e1;
-            box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 8px 26px -4px rgba(15, 23, 42, 0.07);
         }
 
         .intelligence-card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid #f1f5f9;
         }
 
         .intelligence-card-title {
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
-            color: #64748b;
+            color: #475569;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
-        /* Metrics Chips */
+        /* Telemetry Metric Chips */
         .telemetry-chip {
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 16px 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            border-radius: 16px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.03);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .telemetry-chip:hover {
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px -2px rgba(15, 23, 42, 0.06);
         }
 
         .telemetry-label {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .telemetry-value {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 800;
             color: #0f172a;
-            margin-top: 4px;
+            margin-top: 6px;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.8px;
         }
 
         /* ================================================================= */
-        /* AI SUPPORT COPILOT & CHAT CANVAS                                  */
+        /* AI CONVERSATION CANVAS & CHAT BUBBLES                             */
         /* ================================================================= */
         .chat-container-card {
             background: #ffffff;
@@ -210,10 +302,10 @@ def apply_global_styles():
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 16px;
-            padding: 16px 20px;
+            padding: 18px 22px;
             color: #1e293b;
             font-size: 14.5px;
-            line-height: 1.6;
+            line-height: 1.65;
             margin-bottom: 16px;
             position: relative;
         }
@@ -231,8 +323,22 @@ def apply_global_styles():
             margin-bottom: 16px;
         }
 
+        .tool-indicator-badge {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
         /* ================================================================= */
-        /* AI RESOLUTION TIMELINE                                            */
+        /* AI RESOLUTION ACTIVITY TIMELINE                                   */
         /* ================================================================= */
         .timeline-container {
             position: relative;
@@ -252,7 +358,7 @@ def apply_global_styles():
 
         .timeline-node {
             position: relative;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .timeline-dot {
@@ -278,7 +384,7 @@ def apply_global_styles():
         }
 
         .timeline-title {
-            font-size: 13.5px;
+            font-size: 14px;
             font-weight: 700;
             color: #0f172a;
         }
@@ -286,7 +392,7 @@ def apply_global_styles():
         .timeline-meta {
             font-size: 12px;
             color: #64748b;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
         /* ================================================================= */
@@ -324,13 +430,13 @@ def apply_global_styles():
         .smart-empty-subtitle {
             font-size: 13px;
             color: #64748b;
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
             line-height: 1.5;
         }
 
         /* ================================================================= */
-        /* BADGES & PILLS                                                    */
+        /* BADGES & STATUS PILLS                                             */
         /* ================================================================= */
         .badge-green {
             background: #dcfce7;
@@ -420,4 +526,3 @@ def apply_global_styles():
         }
     </style>
     """, unsafe_allow_html=True)
-
