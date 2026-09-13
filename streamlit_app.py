@@ -21,11 +21,12 @@ from app.ui.admin_dashboard import render_admin_dashboard
 
 # Page Configuration
 st.set_page_config(
-    page_title="ResolveAI — Enterprise Support Agent",
+    page_title="ResolveAI — Enterprise AI Resolution Platform",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
+
 
 # Apply global CSS design system
 apply_global_styles()
