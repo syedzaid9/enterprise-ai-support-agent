@@ -1,0 +1,24 @@
+================================================================================
+ENTERPRISE ACCOUNT SECURITY, PRIVACY & COMPLIANCE POLICY
+Document ID: POL-SEC-2026-V1
+Effective Date: January 1, 2026
+Department: Information Security, Data Privacy & Trust Operations
+================================================================================
+
+1. CUSTOMER IDENTITY VERIFICATION PROTOCOLS
+To protect customer privacy and prevent unauthorized account access or social engineering attacks:
+- Basic Inquiries (Order tracking, public policy, general product specs): Support requires Customer ID or Order ID.
+- Account-Specific Modifications (Address change on pending order, billing update, subscription change): Support must verify the customer's registered email address, username, or phone number on file.
+- High-Risk Transactions (Financial refunds over $200, primary email change, account deletion): Multi-Factor Authentication (MFA) or Supervisor Escalation is mandatory.
+
+2. SUSPICIOUS ACTIVITY & COMPROMISED ACCOUNTS
+If a customer reports unauthorized purchases, unexpected password reset emails, or unusual account logins:
+- Protocol 1: Support immediately freezes the account profile to prevent further transactions.
+- Protocol 2: All unshipped orders placed within the last 24 hours are halted and held for fraud analysis.
+- Protocol 3: A high-priority escalation ticket is assigned to the Security Team (TICK-SEC-XXXX).
+- Protocol 4: Secure password reset instructions and 2FA re-enrollment links are sent directly to the customer's verified recovery channel.
+
+3. DATA PRIVACY, GDPR & CCPA COMPLIANCE
+- Right to Access (Data Portability): Customers have the right to request a complete machine-readable copy of their personal data and order history.
+- Right to Erasure (Account Deletion): Customers may request permanent deletion of their account and personal data. Deletion requests are fulfilled within thirty (30) days in compliance with statutory data retention requirements (tax/transaction records retained as mandated by law).
+- Privacy Contact: Requests can be initiated via customer support ticket or by emailing privacy@enterprise-support.com.

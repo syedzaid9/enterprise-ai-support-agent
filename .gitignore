@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ResolveAI Local Data & State
+*.db
+*.sqlite3
+*.sqlite
+resolveai.db
+*.zip
+data/uploads/
+faiss_index/
+uploads/
+

@@ -1,0 +1,30 @@
+================================================================================
+ENTERPRISE BILLING, PAYMENTS & TRANSACTION FAQ
+Document ID: FAQ-BIL-2026-V3
+Effective Date: January 1, 2026
+Department: Global Finance, Billing Operations & Merchant Services
+================================================================================
+
+1. SUPPORTED PAYMENT METHODS & CURRENCIES
+We accept the following payment instruments for all retail and enterprise orders:
+- Major Credit & Debit Cards: Visa, MasterCard, American Express, Discover, JCB, and Diners Club.
+- Digital Wallets: Apple Pay, Google Pay, and PayPal Express Checkout.
+- Flexible Financing (BNPL): Klarna, Affirm, and Afterpay (available for eligible orders over $35.00).
+- Enterprise Invoicing (Net 30): Available for verified commercial accounts with approved credit lines.
+
+2. STATEMENT BILLING DESCRIPTOR
+- All authorized charges and card settlements appear on credit card and bank statements under the merchant descriptor:
+  "ENT*SUPPORT-RETAIL" or "ENTERPRISE-MERCH-DIRECT".
+
+3. TAXES, INVOICES & VAT EXEMPTIONS
+- Sales Tax Calculation: Sales tax and VAT are automatically computed at checkout in compliance with state, provincial, and national destination tax codes.
+- Tax Invoices: Official PDF commercial invoices with breakdown of line items, shipping fees, and tax IDs are emailed automatically and can be re-issued by support agents on request.
+- Tax Exemption: Non-profit and resale organizations can submit valid state tax exemption certificates to support for tax-free account setup.
+
+4. TEMPORARY PENDING AUTHORIZATIONS & FAILED CHARGES
+- When an order attempt fails or is cancelled immediately, a temporary pre-authorization hold may appear on the customer's online banking view.
+- These pending holds are not actual charges; the financial institution will automatically release the funds within 24 to 72 business hours depending on the bank's internal processing rules.
+
+5. CHARGEBACK PREVENTION & DISPUTE RESOLUTION
+- We are dedicated to fair, rapid dispute resolution. Customers experiencing billing discrepancies, unrecognized charges, or duplicate transactions are encouraged to contact our support desk directly before initiating bank chargebacks.
+- Our team can issue immediate refunds or credit adjustments, saving customers the 60-to-90-day bank investigation turnaround.

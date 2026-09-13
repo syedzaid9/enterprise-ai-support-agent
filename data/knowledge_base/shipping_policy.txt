@@ -1,0 +1,42 @@
+================================================================================
+ENTERPRISE GLOBAL SHIPPING & DELIVERY POLICY
+Document ID: POL-SHP-2026-V5
+Effective Date: January 1, 2026
+Department: Global Supply Chain, Logistics & Fulfillment
+================================================================================
+
+1. DOMESTIC SHIPPING TIERS & DELIVERY TIMEFRAMES
+We offer multiple domestic delivery options across continental territories:
+a) Standard Ground Delivery:
+   - Transit Time: Three (3) to seven (7) business days.
+   - Cost: $4.99 flat rate; FREE on all qualifying orders totaling $50.00 or higher.
+b) Expedited 2-Day Air:
+   - Transit Time: Two (2) to three (3) business days.
+   - Cost: $12.99 flat rate.
+c) Priority Overnight Express:
+   - Transit Time: One (1) business day (next-day delivery for orders placed prior to 2:00 PM EST).
+   - Cost: $24.99 flat rate.
+
+2. INTERNATIONAL SHIPPING & CUSTOMS
+- Global Transit Time: Seven (7) to fifteen (15) business days, depending on customs clearance in destination country.
+- Carrier Partners: DHL Express, FedEx International, and UPS Worldwide.
+- Duties & Taxes: International shipments are shipped DDP (Delivered Duty Paid) where applicable, with estimated import fees displayed at checkout.
+
+3. TRACKING & ORDER STATUS MONITORING
+- Automated Notifications: Customers receive an email notification containing their tracking number and carrier link within twenty-four (24) hours of package dispatch.
+- Status Inquiries: Customers may ask support to look up real-time carrier telemetry by providing their Order ID or Customer ID.
+
+4. DELAYED SHIPMENTS & CARRIER EXCEPTIONS
+- Peak Season & Force Majeure: Delivery schedules may experience temporary delays during national holidays, severe weather events, or regional carrier disruptions.
+- Delay Compensation: If an expedited or priority package is delayed by more than three (3) business days beyond the carrier service guarantee due to non-weather carrier fault, support is authorized to refund the expedited shipping fee.
+
+5. LOST IN TRANSIT & STOLEN DELIVERIES (PORCH PIRACY)
+a) Package Stalled in Transit: If tracking shows no scan movement for seven (7) consecutive business days, the shipment is classified as lost in transit. Support will initiate a replacement shipment or full refund immediately.
+b) "Delivered" but Not Received:
+   - Step 1: Customers are advised to check surrounding premises, building lobbies, and with household members or neighbors.
+   - Step 2: Allow a mandatory 24-hour grace period as carriers occasionally scan packages prematurely before final drop-off.
+   - Step 3: If still missing after 24 hours, support opens a formal Carrier Loss Investigation (ticket priority: HIGH). Claims must be filed within fourteen (14) calendar days of the recorded delivery date.
+
+6. ADDRESS CORRECTIONS & SIGNATURE REQUIREMENTS
+- Address Changes: Shipping addresses can only be modified while the order remains in "Processing" status. Once handed to the courier, customers must manage address redirection directly through carrier tools (e.g., FedEx Delivery Manager, UPS My Choice).
+- Orders valued at $500.00 or higher require a direct adult signature upon delivery for fraud prevention.

@@ -1,0 +1,33 @@
+================================================================================
+ENTERPRISE ORDER CANCELLATION & MODIFICATION POLICY
+Document ID: POL-CAN-2026-V3
+Effective Date: January 1, 2026
+Department: Fulfillment, Logistics & Customer Support
+================================================================================
+
+1. GENERAL CANCELLATION GUIDELINES
+Orders placed in our system enter an automated fulfillment pipeline designed to deliver merchandise as quickly as possible. Customers may cancel or modify orders subject to fulfillment progress and timing rules.
+
+2. PRE-SHIPMENT CANCELLATION WINDOW
+- Instant Cancellation Stage: Orders can be cancelled instantly with immediate automatic refund if requested while in "Pending" or "Processing" status (typically within 1 to 2 hours of order submission).
+- Prior to Dispatch: As long as the warehouse has not generated the carrier tracking label or dispatched the pallet, support agents can halt fulfillment and cancel the order.
+- Required Information: The customer must provide their registered Customer ID and the specific Order ID to be cancelled.
+
+3. POST-DISPATCH & IN-TRANSIT LIMITATIONS
+- Once an order status transitions to "Shipped" or "In Transit", automated fulfillment cannot intercept or stop physical transport.
+- For shipped packages, the order CANNOT be cancelled directly in the billing system.
+- Customer Instructions for Shipped Orders:
+  Option A: The customer may accept the delivery and initiate a standard 30-day return via our Return & Refund portal.
+  Option B: The customer may refuse delivery upon courier arrival (package returned to sender). Upon warehouse receipt and scan, a full refund is automatically issued.
+
+4. CANCELLATION OF BACKORDERS & PRE-ORDERS
+- Backordered items and advance pre-orders may be cancelled at any time prior to inventory assignment and shipment notification without incurring any administrative fees or penalties.
+
+5. SUBSCRIPTION & RECURRING SERVICES CANCELLATION
+- Recurring product subscriptions, replenishment plans, or software memberships may be cancelled at any time up to twenty-four (24) hours before the next scheduled billing cycle.
+- Cancellation of subscriptions stops future billings immediately while preserving active service access through the remainder of the paid period.
+
+6. REFUND ISSUANCE ON CANCELLATION
+- When an unshipped order is successfully cancelled, any payment authorizations or completed captures are reversed immediately.
+- The refund is credited back to the customer's original payment method within three (3) to five (5) business days.
+- A confirmation email with the Cancellation Reference Number is automatically sent to the customer's registered email address.

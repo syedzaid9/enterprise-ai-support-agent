@@ -1,0 +1,36 @@
+================================================================================
+ENTERPRISE HARDWARE WARRANTY & REPAIR GUIDELINES
+Document ID: POL-WAR-2026-V2
+Effective Date: January 1, 2026
+Department: Technical Quality, Engineering & RMA Operations
+================================================================================
+
+1. STANDARD 1-YEAR LIMITED HARDWARE WARRANTY
+All physical hardware products and electronics sold through our official channels include a standard one (1) year limited manufacturer warranty starting from the verified date of retail purchase.
+
+2. SCOPE OF WARRANTY COVERAGE
+- Covered Scenarios:
+  a) Internal electrical failures, PCB defects, and soldering component degradation.
+  b) Mechanical switch, zipper, button, or structural assembly faults arising from ordinary intended use.
+  c) Battery capacity degradation exceeding 30% within the first 12 months under standard charge cycling.
+  d) Factory cosmetic blemishes identified upon initial unboxing and reported within 7 days.
+
+- Excluded Scenarios (Warranty Void):
+  a) Water submersion, chemical corrosion, or fire exposure on non-ruggedized units.
+  b) Accidental drops, shattered screens, cracked chassis, or structural trauma caused by negligence.
+  c) Unauthorized third-party repairs, aftermarket modifications, firmware tampering, or broken warranty seals.
+  d) Normal aesthetic wear and tear (scuffs, light scratches, fabric fading).
+
+3. EXTENDED PROTECTION PLANS (ENTERPRISE CARE+)
+- Customers who enrolled in Enterprise Care+ at the time of purchase receive two (2) to three (3) years of extended warranty coverage.
+- Enterprise Care+ includes accidental drop and liquid spill protection with a standardized $25.00 service deductible per incident (maximum 2 claims per 12-month period).
+
+4. WARRANTY SERVICE CLAIM PROCEDURE
+Step 1: Contact support with Order ID, customer details, product serial number, and a description of the malfunction.
+Step 2: A support specialist conducts remote diagnostic triage.
+Step 3: If hardware failure is confirmed, an authorized RMA (Return Merchandise Authorization) number and prepaid shipping kit are generated.
+Step 4: The customer sends the unit to our Regional Repair Depot.
+
+5. REPAIR TURNAROUND TIMELINES & REPLACEMENTS
+- Diagnostic & Repair Window: Typical turnaround is seven (7) to ten (10) business days from depot check-in.
+- Unit Replacement: If the defect cannot be repaired within 14 business days, a brand-new or certified refurbished unit of equal or greater specifications is dispatched with expedited shipping.
